@@ -1,0 +1,44 @@
+---
+title: "Psy525_250220_simulatedData"
+output: html_document
+author: "Raphael A Rodriguez"
+date: "`r Sys.time()`"
+---
+## Hypothesis
+Racial preference attitudes (White preference over Black) is positively correlated with uncomfortability with being around Black people (social distance).
+
+## Variables
+```{r}
+sample_n <- 1000
+beta0 <- 5
+beta1 <- .7
+
+sigma <- 3
+
+distance <- runif(n = sample_n, min = 0, max = 10)
+
+bias_pred <- rep(x = beta0, n = sample_n) + beta1 * distance
+bias <- bias_pred + rnorm(n = sample_n, mean = 0, sd = sigma)
+
+```
+## Histogram Charts
+```{r}
+
+library(stats)
+library(ggplot2)
+library(dplyr)
+
+hist(distance)
+hist(bias)
+hist(bias_pred)
+```
+
+## ggplot2
+```{r}
+bias_distance <- data.frame(bias, distance)
+
+scatter_1 <- ggplot2::ggplot(data = bias_distance) +
+  ggplot2::aes(x = bias, distance) +
+  ggplot2::geom_point()
+scatter_1
+```
